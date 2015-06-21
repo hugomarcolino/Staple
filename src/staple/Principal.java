@@ -8,7 +8,7 @@ import staple.Staple;
 public class Principal {
 	
 	//public static final String caminho = "C:/Users/Hugo/Documents/Dropbox/Engenharia de Computação/Projeto de Final de Curso/TCC/";
-	public static final String caminho = "C:/Users/Hugo/Desktop/Teste/Vessel/";
+	public static final String caminho = "C:/Users/Hugo/Desktop/Teste/Vessel [bmp]/";
 	
 	public static double limiar = 1.0;
 	
