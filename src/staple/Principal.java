@@ -7,15 +7,13 @@ import staple.Staple;
 
 public class Principal {
 	
-	//public static final String caminho = "C:/Users/Hugo/Documents/Dropbox/Engenharia de Computação/Projeto de Final de Curso/TCC/";
 	public static final String caminho = "C:/Users/Hugo/Desktop/Teste/Vessel [bmp]/";
 	
 	public static double limiar = 1.0;
 	
-	public static void main(String[] args){
-		try {
-//			for(limiar = 1.0; limiar <= 1.0; limiar += 0.02) {
-//				System.out.println("Limiar: "+limiar);
+	public static void main2(String[] args) throws Exception{
+//		for(limiar = 1.0; limiar <= 1.0; limiar += 0.02) {
+//			System.out.println("Limiar: "+limiar);
 			for (int i = 1; i <= 1; i++) {
 				System.out.println("Imagem " +i+":");
 				double[][] imagem = null;
@@ -60,10 +58,7 @@ public class Principal {
 				System.out.println("======================");
 				
 			}
-//			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//}
 	}
 
 	
