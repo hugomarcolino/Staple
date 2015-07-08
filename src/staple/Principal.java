@@ -7,58 +7,53 @@ import staple.Staple;
 
 public class Principal {
 	
-	public static final String caminho = "C:/Users/Hugo/Desktop/Teste/Vessel [bmp]/";
-	
-	public static double limiar = 1.0;
+	public static final String caminho = "C:/Users/Hugo/Desktop/Dropbox/Mestrado de Computação/Projeto/Teste/Vessel [bmp]/";
 	
 	public static void main2(String[] args) throws Exception{
-//		for(limiar = 1.0; limiar <= 1.0; limiar += 0.02) {
-//			System.out.println("Limiar: "+limiar);
-			for (int i = 1; i <= 1; i++) {
-				System.out.println("Imagem " +i+":");
-				double[][] imagem = null;
-				double[][] imagemResposta = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/gt.gif"));
-				double[][] mask = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/mask.gif"));
-				List<double[][]> segmentacoes = new ArrayList<double[][]>();
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/1.bmp"));				
-				segmentacoes.add(imagem);
-				acerto(imagem, imagemResposta, mask, "01");
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/2.bmp"));				
-				segmentacoes.add(imagem);
-				acerto(imagem, imagemResposta, mask, "02");
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/3.bmp"));				
-				segmentacoes.add(imagem);
-				acerto(imagem, imagemResposta, mask, "03");
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/4.bmp"));				
-				segmentacoes.add(imagem);
-				acerto(imagem, imagemResposta, mask, "04");
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/5.bmp"));				
-				segmentacoes.add(imagem);
-				acerto(imagem, imagemResposta, mask, "05");
-				
-				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/6.bmp"));				
-				segmentacoes.add(imagem);
-				
-				Staple staple = new Staple(segmentacoes);
-				staple.algoritmo();
-				Util.salvaImagem(caminho+i+"/staple.bmp", staple.getImagem());
-				acerto(staple.getImagem(), imagemResposta, mask, "Staple:");
-				
-				
-				Votacao votacao = new Votacao(segmentacoes);
-				votacao.algoritmo();
-				Util.salvaImagem(caminho+i+"/votacao.bmp", votacao.getImagem());
-				acerto(votacao.getImagem(), imagemResposta, mask, "Votação:");
+		for (int i = 1; i <= 20; i++) {
+			System.out.println("Imagem " +i+":");
+			double[][] imagem = null;
+			//double[][] imagemResposta = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/gt.gif"));
+			//double[][] mask = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/mask.gif"));
+			List<double[][]> segmentacoes = new ArrayList<double[][]>();
+			
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/1.bmp"));				
+			segmentacoes.add(imagem);
+			//acerto(imagem, imagemResposta, mask, "01");
+			
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/2.bmp"));				
+			segmentacoes.add(imagem);
+			//acerto(imagem, imagemResposta, mask, "02");
+			
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/3.bmp"));				
+			segmentacoes.add(imagem);
+			//acerto(imagem, imagemResposta, mask, "03");
+			
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/4.bmp"));				
+			segmentacoes.add(imagem);
+			//acerto(imagem, imagemResposta, mask, "04");
+			
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/5.bmp"));				
+			segmentacoes.add(imagem);
+			//acerto(imagem, imagemResposta, mask, "05");
+			
+			//imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/6.bmp"));				
+			//segmentacoes.add(imagem);
+			
+			Staple staple = new Staple(segmentacoes);
+			staple.algoritmo();
+			Util.salvaImagem(caminho+"Results/"+i+"/staple.bmp", staple.getImagem());
+			//acerto(staple.getImagem(), imagemResposta, mask, "Staple:");
+			
+			Votacao votacao = new Votacao(segmentacoes);
+			votacao.algoritmo();
+			Util.salvaImagem(caminho+"Results/"+i+"/votacao.bmp", votacao.getImagem());
+			//acerto(votacao.getImagem(), imagemResposta, mask, "Votação:");
+			
 
-				System.out.println("======================");
-				
-			}
-		//}
+			System.out.println("======================");
+			
+		}
 	}
 
 	
