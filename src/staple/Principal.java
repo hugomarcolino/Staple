@@ -7,14 +7,15 @@ import staple.Staple;
 
 public class Principal {
 	
-	public static final String caminho = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/Vessel [bmp]/";
+	public static final String caminho = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/vessel [bmp]/";
 	
 	public static void main(String[] args) throws Exception{
 		for (int i = 1; i <= 20; i++) {
 			System.out.println("Imagem " +i+":");
 			double[][] imagem = null;
-			//double[][] imagemResposta = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/gt.gif"));
-			//double[][] mask = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/mask.gif"));
+			double[][] imagemResposta = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/gt.gif"));
+			double[][] mask = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/mask.gif"));
+			
 			List<double[][]> segmentacoes = new ArrayList<double[][]>();
 			
 			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/1.bmp"));				
@@ -38,12 +39,12 @@ public class Principal {
 			Staple staple = new Staple(segmentacoes);
 			staple.algoritmo();
 			Util.salvaImagem(caminho+"Results/"+i+"/staple.bmp", staple.getImagem());
-			//acerto(staple.getImagem(), imagemResposta, mask, "Staple:");
+			acerto(staple.getImagem(), imagemResposta, mask, "Staple:");
 			
 			Votacao votacao = new Votacao(segmentacoes);
 			votacao.algoritmo();
 			Util.salvaImagem(caminho+"Results/"+i+"/votacao.bmp", votacao.getImagem());
-			//acerto(votacao.getImagem(), imagemResposta, mask, "Votação:");
+			acerto(votacao.getImagem(), imagemResposta, mask, "Votação:");
 
 			System.out.println("======================");
 			
