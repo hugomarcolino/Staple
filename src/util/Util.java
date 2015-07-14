@@ -1,4 +1,4 @@
-package staple;
+package util;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

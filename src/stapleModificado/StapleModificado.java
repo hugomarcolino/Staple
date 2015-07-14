@@ -1,11 +1,11 @@
-package staple;
+package stapleModificado;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Staple {
+public class StapleModificado {
 
-	private List<int[][]> segmentacoes;
+	private List<double[][]> segmentacoes;
 	
 	private double[][] t0;
 	private double[][] t1;
@@ -19,12 +19,12 @@ public class Staple {
 	
 	private double[][] imagem;
 	
-	public Staple(List<double[][]> listaSegmentacao) throws Exception{
-		this.segmentacoes = new ArrayList<int[][]>();
+	public StapleModificado(List<double[][]> listaImagens) {
+		this.segmentacoes = new ArrayList<double[][]>();
 		
-		//Segmentações 
-		for (double[][] segmentacao : listaSegmentacao) {
-			this.segmentacoes.add(matrizDoubleToInt(segmentacao));
+		//Imagens Normalizadas 
+		for (double[][] segmentacao : listaImagens) {
+			this.segmentacoes.add(normalizarMatriz(segmentacao));
 		}
 
 		this.a = new double[segmentacoes.get(0).length][segmentacoes.get(0)[0].length];
@@ -51,7 +51,7 @@ public class Staple {
 		//Inicializar f(Ti=1) e f(Ti=0)		
 		for (int i = 0; i < w.length; i++) {
 			for (int j = 0; j < w[i].length; j++) {
-				for (int[][] segmentacao : segmentacoes) {
+				for (double[][] segmentacao : segmentacoes) {
 					this.t1[i][j] += segmentacao[i][j];
 				}
 				this.t1[i][j] /= segmentacoes.size();
@@ -69,14 +69,11 @@ public class Staple {
 				a[i][j] = this.t1[i][j];
 				b[i][j] = this.t0[i][j];
 				for(int m = 0; m < segmentacoes.size(); m++){
-					int[][] segmentacao = segmentacoes.get(m);
-					if(segmentacao[i][j] == 1){
-						a[i][j] *= p[m];
-						b[i][j] *= (1-q[m]);
-					} else {
-						a[i][j] *= (1-p[m]);
-						b[i][j] *= q[m];
-					}
+					double[][] segmentacao = segmentacoes.get(m);
+					double pixel = segmentacao[i][j];
+
+					a[i][j] *= ((pixel)*p[m] + (1-pixel)*(1-p[m]));
+					b[i][j] *= ((1-pixel)*q[m] + (pixel)*(1-q[m]));
 				}
 			}
 		}
@@ -90,16 +87,16 @@ public class Staple {
 		
 		//Calcular novos Pj e Qj
 		for(int s = 0; s < segmentacoes.size(); s++){
-			int[][] segmentacao = segmentacoes.get(s);
+			double[][] segmentacao = segmentacoes.get(s);
 			double somatorioP = 0, somatorioQ = 0;
 			double totalP = 0, totalQ = 0;
 			for (int i = 0; i < segmentacao.length; i++) {
 				for (int j = 0; j < segmentacao[i].length; j++) {		
-					if(segmentacao[i][j] == 1){
-						somatorioP += w[i][j];
-					} else {
-						somatorioQ += (1-w[i][j]);
-					}
+					
+					double pixel = segmentacao[i][j];
+					somatorioP += pixel*w[i][j];
+					somatorioQ += (1-pixel)*(1-w[i][j]);
+					
 					totalP += w[i][j];
 					totalQ += (1-w[i][j]);
 				}
@@ -127,19 +124,6 @@ public class Staple {
 		return iteracoes;
 	}
 	
-//	private boolean isNaN(double[][] matriz){	
-//		for (int i = 0; i < matriz.length; i++) {
-//			for (int j = 0; j < matriz[i].length; j++) {
-//				if(((Double) matriz[i][j]).equals(Double.NaN)){
-//					matriz[i][j] = 0.0;
-//					return true;
-//				}
-//			}
-//		}
-//		
-//		return false;
-//	}
-	
 	
 	private double somaPesos(double[][] matriz){
 		double somaPesos = 0.0;
@@ -164,29 +148,22 @@ public class Staple {
 		return cloneMatriz;
 	}
 	
-	public int[][] matrizDoubleToInt(double[][] imagem) throws Exception{
-		int[][] imagemBinaria = new int[imagem.length][imagem[0].length];
+	public double[][] normalizarMatriz(double[][] matriz) {
+		double[][] matrizNormalizada = new double[matriz.length][matriz[0].length];
 		
-		for (int i = 0; i < imagemBinaria.length; i++) {
-			for (int j = 0; j < imagemBinaria[i].length; j++) {
-				if(imagem[i][j] == 0.0){
-					imagemBinaria[i][j] = 0;
-				} else if(imagem[i][j] == 255.0){
-					imagemBinaria[i][j] = 1;
-				} else {
-					System.err.println(imagem[i][j]);
-					throw new Exception();
-				}
+		for (int i = 0; i < matrizNormalizada.length; i++) {
+			for (int j = 0; j < matrizNormalizada[i].length; j++) {
+				matrizNormalizada[i][j] = matriz[i][j]/255.0;
 			}
 		}
-		return imagemBinaria;
+		return matrizNormalizada;
 	}
 	
 	public double[][] transformaImagem(double[][] matriz) {
 		double[][] imagem = new double[matriz.length][matriz[0].length];
 		
 		for (int i = 0; i < imagem.length; i++) {
-			for (int j = 0; j < imagem[i].length; j++) {
+			for (int j = 0; j < imagem[i].length; j++) {				
 				if(matriz[i][j] < 0.1){
 					imagem[i][j] = 0.0;
 				} else {
