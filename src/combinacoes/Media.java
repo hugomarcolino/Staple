@@ -1,4 +1,4 @@
-package media;
+package combinacoes;
 
 import java.util.ArrayList;
 import java.util.List;

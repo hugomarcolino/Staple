@@ -3,10 +3,10 @@ package testes;
 import java.util.ArrayList;
 import java.util.List;
 
-import media.Media;
-import staple.Staple;
-import staple.Votacao;
-import stapleModificado.StapleModificado;
+import combinacoes.Media;
+import combinacoes.Staple;
+import combinacoes.StapleModificado;
+import combinacoes.Votacao;
 import util.Util;
 
 public class Principal {
