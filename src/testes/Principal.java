@@ -11,8 +11,9 @@ import util.Util;
 
 public class Principal {
 	
-	public static final String caminhoVessel = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/vessel [bmp]/";
+	public static final String caminhoVessel = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/Vessel [bmp]/";
 	public static final String caminhoORLFaces = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/orl_faces [bmp]/";
+	public static final String caminhoBerkeley = "C:/Users/Hugo/Documents/Dropbox/Mestrado de Computação/Projeto/Teste/Berkeley [bmp]/";
 
 	public static void main(String[] args) throws Exception {
 		
@@ -21,7 +22,7 @@ public class Principal {
 	}
 	
 	public static void staple() throws Exception{
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 20; i++) {
 			System.out.println("Imagem " +i+":");
 			double[][] imagem = null;
 			double[][] imagemResposta = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/gt.gif"));
@@ -29,27 +30,27 @@ public class Principal {
 			
 			List<double[][]> segmentacoes = new ArrayList<double[][]>();
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/1.bmp"));				
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/1.bmp"));		
 			segmentacoes.add(imagem);
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/2.bmp"));				
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/2.bmp"));
 			segmentacoes.add(imagem);
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/3.bmp"));				
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/3.bmp"));
 			segmentacoes.add(imagem);
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/4.bmp"));				
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/4.bmp"));
 			segmentacoes.add(imagem);
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/5.bmp"));				
+			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/5.bmp"));
 			segmentacoes.add(imagem);
 			
-			//imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+i+"/6.bmp"));				
+			//imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/6.bmp"));				
 			//segmentacoes.add(imagem);
 			
 			StapleModificado stapleModificado = new StapleModificado(segmentacoes);
 			stapleModificado.algoritmo();
-			acerto(stapleModificado.getImagem(), imagemResposta, mask, "Staple Modificado:");
+			acerto(stapleModificado.getImagem(0.5), imagemResposta, mask, "Staple Modificado:");
 			
 			Staple staple = new Staple(segmentacoes);
 			staple.algoritmo();
@@ -67,7 +68,33 @@ public class Principal {
 		}
 	}
 	
-	public static void stapleModificado() throws Exception{
+	
+	public static void stapleModificadoTextura() throws Exception{
+
+		String caminho = caminhoBerkeley;
+		//String caminho = caminhoVessel;
+		
+		for (int i = 5; i <= 5; i++) {
+			System.out.println("Imagem " +i+":");
+			double[][] imagem = null;
+			List<double[][]> segmentacoes = new ArrayList<double[][]>();
+			
+			for (int j = 1; j <= 5; j++) {
+				System.out.println(caminho+"Results/"+i+"/textura/"+j+".bmp");
+				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminho+"Results/"+i+"/textura/"+j+".bmp"));
+				segmentacoes.add(imagem);
+			}
+			
+			StapleModificado stapleModificado = new StapleModificado(segmentacoes);
+			stapleModificado.algoritmo();
+			Util.salvaImagem(caminho+"Results/"+i+"/textura/stapleModificado.bmp", stapleModificado.getImagem(0.4));
+
+			System.out.println("======================");
+			
+		}
+	}
+	
+	public static void stapleModificadoNiblackVessel() throws Exception{
 
 		for (int i = 1; i <= 20; i++) {
 			System.out.println("Imagem " +i+":");
@@ -76,19 +103,23 @@ public class Principal {
 			double[][] mask = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/mask.gif"));
 			List<double[][]> segmentacoes = new ArrayList<double[][]>();
 			
-			imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+i+"/1.bmp"));				
-			segmentacoes.add(imagem);
+			for (int j = 1; j <= 30; j++) {
+				imagem = Util.retornaImagemCinza(Util.lerImagemColorida(caminhoVessel+"Results/"+i+"/niblack/"+j+".bmp"));				
+				segmentacoes.add(imagem);
+			}
 			
-			StapleModificado staple = new StapleModificado(segmentacoes);
-			staple.algoritmo();
-			Util.salvaImagem(caminhoVessel+"Results/"+i+"/stapleModificado.bmp", staple.getImagem());
-			acerto(staple.getImagem(), imagemResposta, mask, "Staple:");
+			StapleModificado stapleModificado = new StapleModificado(segmentacoes);
+			stapleModificado.algoritmo();
+			double[][] imagemR = stapleModificado.getImagem(0.5);
+			Util.salvaImagem(caminhoVessel+"Results/"+i+"/stapleModificado.bmp", imagemR);
+			acerto(imagemR, imagemResposta, mask, "Staple:");
 
 			System.out.println("======================");
 			
 		}
 	}
 
+	
 	public static double acerto(double[][] imagem, double[][] imagemResultado, double[][] mask, String string){
 		double vasoCandidato = 0;
 		double vasoEncontrado = 0;
@@ -135,9 +166,9 @@ public class Principal {
 				imagens.add(imagem);
 			}
 							
-			StapleModificado staple = new StapleModificado(imagens);
-			staple.algoritmo();
-			Util.salvaImagem(caminhoORLFaces+"combinacaoStaple/"+i+".bmp", staple.getImagem());
+			StapleModificado stapleModificado = new StapleModificado(imagens);
+			stapleModificado.algoritmo();
+			Util.salvaImagem(caminhoORLFaces+"combinacaoStaple/"+i+".bmp", stapleModificado.getImagem(0.5));
 			
 			Media media = new Media(imagens);
 			media.calcularMedia();

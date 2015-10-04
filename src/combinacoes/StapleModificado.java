@@ -17,8 +17,6 @@ public class StapleModificado {
 	private double[][] b;
 	private double[][] w;
 	
-	private double[][] imagem;
-	
 	public StapleModificado(List<double[][]> listaImagens) {
 		this.segmentacoes = new ArrayList<double[][]>();
 		
@@ -119,7 +117,7 @@ public class StapleModificado {
 			iteracoes++;
 		}
 		 
-		this.imagem = transformaImagem(pesoAnterior);
+		//this.imagem = transformaImagem(pesoAnterior);
 		
 		return iteracoes;
 	}
@@ -159,23 +157,22 @@ public class StapleModificado {
 		return matrizNormalizada;
 	}
 	
-	public double[][] transformaImagem(double[][] matriz) {
-		double[][] imagem = new double[matriz.length][matriz[0].length];
+	
+	public double[][] getImagem(double limiar) {
+		double[][] imagem = new double[this.w.length][this.w[0].length];
 		
 		for (int i = 0; i < imagem.length; i++) {
 			for (int j = 0; j < imagem[i].length; j++) {				
-				if(matriz[i][j] < 0.1){
+				if(this.w[i][j] < limiar){
 					imagem[i][j] = 0.0;
 				} else {
 					imagem[i][j] = 255;
 				}
+
+				//imagem[i][j] = imagem[i][j]*255;
 			}
 		}
 		
-		return imagem;
-	}
-	
-	public double[][] getImagem() {
 		return imagem;
 	}
 
