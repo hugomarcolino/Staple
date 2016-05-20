@@ -175,5 +175,17 @@ public class StapleModificado {
 		
 		return imagem;
 	}
+	
+	public double[][] getImagem() {
+		double[][] imagem = new double[this.w.length][this.w[0].length];
+		
+		for (int i = 0; i < imagem.length; i++) {
+			for (int j = 0; j < imagem[i].length; j++) {				
+				imagem[i][j] = Math.floor(this.w[i][j]*255);
+			}
+		}
+		
+		return imagem;
+	}
 
 }
